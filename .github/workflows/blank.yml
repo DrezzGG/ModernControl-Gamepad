@@ -8,14 +8,14 @@ jobs:
   check-ndk:
     runs-on: ubuntu-latest
     steps:
-      - name: Install Android NDK
-        uses: android-actions/setup-android@v3
+      - name: Setup Android SDK and NDK
+        uses: android-actions/setup-android@v4
+        with:
+          packages: 'ndk;27.2.12479018'
 
-      - name: Check NDK and ARM64 target
+      - name: Verify ARM64 compiler
         run: |
-          echo "Modern Control - Gamepad"
-          echo "Checking Android build tools..."
-          sdkmanager --install "ndk;27.2.12479018"
-          echo "NDK_ROOT=$ANDROID_NDK_HOME"
-          "$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++" --version
-          "$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang++" --version
+          echo "SDK root: $ANDROID_HOME"
+          NDK="$ANDROID_HOME/ndk/27.2.12479018"
+          test -x "$NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang++"
+          "$NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang++" --version
