@@ -1,15 +1,21 @@
 
-name: Modern Control - Build Check
+name: Modern Control - NDK Check
 
 on:
   workflow_dispatch:
 
 jobs:
-  check:
+  check-ndk:
     runs-on: ubuntu-latest
     steps:
-      - name: Check build environment
+      - name: Install Android NDK
+        uses: android-actions/setup-android@v3
+
+      - name: Check NDK and ARM64 target
         run: |
           echo "Modern Control - Gamepad"
-          echo "Cloud build environment is ready"
-          uname -m
+          echo "Checking Android build tools..."
+          sdkmanager --install "ndk;27.2.12479018"
+          echo "NDK_ROOT=$ANDROID_NDK_HOME"
+          "$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++" --version
+          "$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang++" --version
