@@ -1,0 +1,15 @@
+
+name: Modern Control - Build Check
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check build environment
+        run: |
+          echo "Modern Control - Gamepad"
+          echo "Cloud build environment is ready"
+          uname -m
